@@ -47,7 +47,7 @@ func XMLSerialise(t Test, silence bool) (int, int, int) {
 	if errors != nil {
 		fmt.Println("ERRS", errors)
 	}
-	ioutil.WriteFile("XML", buff.Bytes(), 777)
+	ioutil.WriteFile("files/XML", buff.Bytes(), 777)
 
 	size := len(buff.Bytes())
 
@@ -58,7 +58,7 @@ func XMLSerialise(t Test, silence bool) (int, int, int) {
 	start = time.Now().Nanosecond()
 
 	var out Test
-	file, errors := ioutil.ReadFile("XML")
+	file, errors := ioutil.ReadFile("files/XML")
 	decoder := xml.NewDecoder(bytes.NewBuffer(file))
 	errors = decoder.Decode(&out)
 
@@ -94,7 +94,7 @@ func GobSerialise(t Test, silence bool) (int, int, int) {
 		fmt.Println("ERRS", errors)
 	}
 
-	ioutil.WriteFile("Gob", buff.Bytes(), 777)
+	ioutil.WriteFile("files/Gob", buff.Bytes(), 777)
 
 	size := len(buff.Bytes())
 
@@ -104,7 +104,7 @@ func GobSerialise(t Test, silence bool) (int, int, int) {
 
 	start = time.Now().Nanosecond()
 
-	file, errors := ioutil.ReadFile("Gob")
+	file, errors := ioutil.ReadFile("files/Gob")
 	decoder := gob.NewDecoder(bytes.NewBuffer(file))
 	var out Test
 	errors = decoder.Decode(&out)
@@ -140,7 +140,7 @@ func JsonSerialise(t Test, silence bool) (int, int, int) {
 		fmt.Println("encoding error", errors)
 	}
 
-	ioutil.WriteFile("Json", jsbytes, 777)
+	ioutil.WriteFile("files/Json", jsbytes, 777)
 	size := len(jsbytes)
 
 	if !silence {
@@ -149,7 +149,7 @@ func JsonSerialise(t Test, silence bool) (int, int, int) {
 
 	start = time.Now().Nanosecond()
 
-	file, errors := ioutil.ReadFile("Json")
+	file, errors := ioutil.ReadFile("files/Json")
 	result := Test{}
 	errors = json.Unmarshal(file, &result)
 
@@ -189,7 +189,7 @@ func ProtoSerialise(t models.Test, silence bool) (int, int, int) {
 		fmt.Println("encoding error", errors)
 	}
 
-	ioutil.WriteFile("Proto", out, 777)
+	ioutil.WriteFile("files/Proto", out, 777)
 	size := len(out)
 
 	if !silence {
@@ -198,7 +198,7 @@ func ProtoSerialise(t models.Test, silence bool) (int, int, int) {
 
 	start = time.Now().Nanosecond()
 
-	file, errors := ioutil.ReadFile("Proto")
+	file, errors := ioutil.ReadFile("files/Proto")
 	result := &models.Test{}
 	errors = proto.Unmarshal(file, result)
 
@@ -245,7 +245,7 @@ func AvroSerialise(t Test, silence bool) (int, int, int) {
 	end := time.Now().Nanosecond()
 	elapsed := end - start
 
-	ioutil.WriteFile("Avro", out, 777)
+	ioutil.WriteFile("files/Avro", out, 777)
 
 	size := len(out)
 
@@ -255,7 +255,7 @@ func AvroSerialise(t Test, silence bool) (int, int, int) {
 
 	start = time.Now().Nanosecond()
 
-	file, errors := ioutil.ReadFile("Avro")
+	file, errors := ioutil.ReadFile("files/Avro")
 	result := &Test{}
 	errors = avro.Unmarshal(schema, file, result)
 	if errors != nil {
@@ -289,7 +289,7 @@ func YAMLSerialise(t Test, silence bool) (int, int, int) {
 	end := time.Now().Nanosecond()
 	elapsed := end - start
 
-	ioutil.WriteFile("YAML", yamlbytes, 777)
+	ioutil.WriteFile("files/YAML", yamlbytes, 777)
 
 	size := len(yamlbytes)
 
@@ -299,7 +299,7 @@ func YAMLSerialise(t Test, silence bool) (int, int, int) {
 
 	start = time.Now().Nanosecond()
 
-	file, errors := ioutil.ReadFile("YAML")
+	file, errors := ioutil.ReadFile("files/YAML")
 	result := Test{}
 	errors = yaml.Unmarshal(file, &result)
 
@@ -334,7 +334,7 @@ func MSGpSerialise(t Test, silence bool) (int, int, int) {
 	end := time.Now().Nanosecond()
 	elapsed := end - start
 
-	ioutil.WriteFile("MSG", msg, 777)
+	ioutil.WriteFile("files/MSG", msg, 777)
 
 	size := len(msg)
 
@@ -344,7 +344,7 @@ func MSGpSerialise(t Test, silence bool) (int, int, int) {
 
 	start = time.Now().Nanosecond()
 
-	file, errors := ioutil.ReadFile("MSG")
+	file, errors := ioutil.ReadFile("files/MSG")
 	result := Test{}
 	errors = msgpack.Unmarshal(file, &result)
 

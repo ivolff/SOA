@@ -1,0 +1,30 @@
+{
+    "namespace": "one.panim",
+    "type": "record",
+    "name": "test",
+    "fields": [
+        {"name": "Id", "type": "int"},
+        {"name": "Name", "type": "string"},
+        {"name": "Somenumericarray", "type": {"type":"array", "items":"int"}},
+        {
+            "name": "Tests",
+            "type": {
+                "type": "array",
+                "items": {
+                    "name" : "TestStruct",
+                    "type" : "record",
+                    "fields":[
+                        {
+                            "name": "some",
+                            "type": "string"
+                        },
+                        {
+                            "name": "other",
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

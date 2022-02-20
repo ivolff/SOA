@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = ".";
+
+message TestStruct {
+    string Some = 1;
+    string Other = 2;
+}
+
+message Test {
+
+    int32 ID = 1;
+    string Name = 2;
+
+    repeated int32 SomeNumericArray = 3;
+
+    repeated TestStruct tests = 4;
+}

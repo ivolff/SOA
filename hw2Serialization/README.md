@@ -1,5 +1,6 @@
 ##### Табличка с сравнением сериализаторов:
 https://docs.google.com/spreadsheets/d/1FXjEB-sp1ggN-tut1GiCe8f3SaEsaOPuAgK8B3KIZ1I/edit?usp=sharing
+btw я не виноват что gob так плох, я четно не понимаю что не так (вохможно надо маршал/анмаршал) делать, но я уже устал
 
 ##### Запуск приложения из go
 ```

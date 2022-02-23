@@ -5,6 +5,7 @@ import (
 	"encoding/gob"
 	"encoding/json"
 	"encoding/xml"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"time"
@@ -32,7 +33,7 @@ type Test struct {
 func XMLSerialise(t Test, silence bool) (int, int, int) {
 
 	if !silence {
-		fmt.Println("XML")
+		fmt.Println("before serilize:\n", t)
 	}
 	var buff bytes.Buffer
 
@@ -52,7 +53,7 @@ func XMLSerialise(t Test, silence bool) (int, int, int) {
 	size := len(buff.Bytes())
 
 	if !silence {
-		fmt.Printf("%X\n size: %d\n", buff.Bytes(), size)
+		fmt.Printf("Serialized: \n%X\n size: %d\n", buff.Bytes(), size)
 	}
 
 	start = time.Now().Nanosecond()
@@ -70,7 +71,8 @@ func XMLSerialise(t Test, silence bool) (int, int, int) {
 	}
 
 	if !silence {
-		fmt.Println(out)
+		fmt.Println("Deserialized: \n", out, "\n")
+
 	}
 
 	return size, elapsed, elapsed1
@@ -78,7 +80,7 @@ func XMLSerialise(t Test, silence bool) (int, int, int) {
 
 func GobSerialise(t Test, silence bool) (int, int, int) {
 	if !silence {
-		fmt.Println("GOB")
+		fmt.Println("before serilize:\n", t)
 	}
 
 	start := time.Now().Nanosecond()
@@ -99,7 +101,7 @@ func GobSerialise(t Test, silence bool) (int, int, int) {
 	size := len(buff.Bytes())
 
 	if !silence {
-		fmt.Printf("%X\n size: %d\n", buff.Bytes(), size)
+		fmt.Printf("Serialized: \n%X\n size: %d\n", buff.Bytes(), size)
 	}
 
 	start = time.Now().Nanosecond()
@@ -117,7 +119,8 @@ func GobSerialise(t Test, silence bool) (int, int, int) {
 	}
 
 	if !silence {
-		fmt.Println(out)
+		fmt.Println("Deserialized: \n", out, "\n")
+
 	}
 
 	return size, elapsed, elapsed1
@@ -125,8 +128,7 @@ func GobSerialise(t Test, silence bool) (int, int, int) {
 
 func JsonSerialise(t Test, silence bool) (int, int, int) {
 	if !silence {
-		fmt.Println("JSON")
-		fmt.Println(t)
+		fmt.Println("before serilize:\n", t)
 	}
 
 	start := time.Now().Nanosecond()
@@ -144,7 +146,7 @@ func JsonSerialise(t Test, silence bool) (int, int, int) {
 	size := len(jsbytes)
 
 	if !silence {
-		fmt.Printf("%X\n size: %d\n", jsbytes, size)
+		fmt.Printf("Serialized: \n%X\n size: %d\n", jsbytes, size)
 	}
 
 	start = time.Now().Nanosecond()
@@ -161,7 +163,7 @@ func JsonSerialise(t Test, silence bool) (int, int, int) {
 	}
 
 	if !silence {
-		fmt.Println(result)
+		fmt.Println("Deserialized: \n", result, "\n")
 	}
 
 	return size, elapsed, elapsed1
@@ -169,8 +171,7 @@ func JsonSerialise(t Test, silence bool) (int, int, int) {
 
 func ProtoSerialise(t models.Test, silence bool) (int, int, int) {
 	if !silence {
-		fmt.Println("Proto")
-		fmt.Println(t)
+		fmt.Println("before serilize:\n", t)
 	}
 
 	start := time.Now().Nanosecond()
@@ -193,7 +194,7 @@ func ProtoSerialise(t models.Test, silence bool) (int, int, int) {
 	size := len(out)
 
 	if !silence {
-		fmt.Printf("%X\n size: %d\n", out, size)
+		fmt.Printf("Serialized: \n%X\n size: %d\n", out, size)
 	}
 
 	start = time.Now().Nanosecond()
@@ -210,7 +211,7 @@ func ProtoSerialise(t models.Test, silence bool) (int, int, int) {
 	}
 
 	if !silence {
-		fmt.Println(result)
+		fmt.Println("Deserialized: \n", result, "\n")
 	}
 
 	return size, elapsed, elapsed1
@@ -218,8 +219,7 @@ func ProtoSerialise(t models.Test, silence bool) (int, int, int) {
 
 func AvroSerialise(t Test, silence bool) (int, int, int) {
 	if !silence {
-		fmt.Println("Avro")
-		fmt.Println(t)
+		fmt.Println("before serilize:\n", t)
 	}
 
 	start := time.Now().Nanosecond()
@@ -250,7 +250,7 @@ func AvroSerialise(t Test, silence bool) (int, int, int) {
 	size := len(out)
 
 	if !silence {
-		fmt.Printf("%X\n size: %d\n", out, size)
+		fmt.Printf("Serialized: \n%X\n size: %d\n", out, size)
 	}
 
 	start = time.Now().Nanosecond()
@@ -266,7 +266,7 @@ func AvroSerialise(t Test, silence bool) (int, int, int) {
 	elapsed1 := end - start
 
 	if !silence {
-		fmt.Println(result)
+		fmt.Println("Deserialized: \n", result, "\n")
 	}
 
 	return size, elapsed, elapsed1
@@ -274,8 +274,7 @@ func AvroSerialise(t Test, silence bool) (int, int, int) {
 
 func YAMLSerialise(t Test, silence bool) (int, int, int) {
 	if !silence {
-		fmt.Println("YAML")
-		fmt.Println(t)
+		fmt.Println("before serilize:\n", t)
 	}
 
 	start := time.Now().Nanosecond()
@@ -294,7 +293,7 @@ func YAMLSerialise(t Test, silence bool) (int, int, int) {
 	size := len(yamlbytes)
 
 	if !silence {
-		fmt.Printf("%X\n size: %d\n", yamlbytes, size)
+		fmt.Printf("Serialized: \n%X\n size: %d\n", yamlbytes, size)
 	}
 
 	start = time.Now().Nanosecond()
@@ -311,7 +310,7 @@ func YAMLSerialise(t Test, silence bool) (int, int, int) {
 	}
 
 	if !silence {
-		fmt.Println(result)
+		fmt.Println("Deserialized: \n", result, "\n")
 	}
 
 	return size, elapsed, elapsed1
@@ -319,8 +318,7 @@ func YAMLSerialise(t Test, silence bool) (int, int, int) {
 
 func MSGpSerialise(t Test, silence bool) (int, int, int) {
 	if !silence {
-		fmt.Println("YAML")
-		fmt.Println(t)
+		fmt.Println("before serilize:\n", t)
 	}
 
 	start := time.Now().Nanosecond()
@@ -339,7 +337,7 @@ func MSGpSerialise(t Test, silence bool) (int, int, int) {
 	size := len(msg)
 
 	if !silence {
-		fmt.Printf("%X\n size: %d\n", msg, size)
+		fmt.Printf("Serialized: \n%X\n size: %d\n", msg, size)
 	}
 
 	start = time.Now().Nanosecond()
@@ -355,13 +353,14 @@ func MSGpSerialise(t Test, silence bool) (int, int, int) {
 	}
 
 	if !silence {
-		fmt.Println(result)
+		fmt.Println("Deserialized: \n", result, "\n")
 	}
 
 	return size, elapsed, elapsed1
 }
 
 func main() {
+
 	t := Test{
 		ID:               1,
 		Name:             "Test",
@@ -372,16 +371,25 @@ func main() {
 		},
 	}
 
-	num_runs := 1
-	silence := true
+	nruns := flag.Int("runs", 1, "number of runs for every serializer(int)")
+	s := flag.Bool("s", true, "show every serialization run report(bool)")
+	si := flag.Bool("si", true, "show detail report about every serialization run(bool)")
+	flag.Parse()
+
+	num_runs := *nruns
+	silence := !*s
+	silenceInside := !*si
 
 	GOBsize, GOBIntime, GOBOuttime := 0, 0, 0
 
 	for i := 0; i < num_runs; i++ {
-		F, S, T := GobSerialise(t, false)
+		if !silence {
+			fmt.Printf("------------Gob------RUN #%d---------------- \n", i)
+		}
+		F, S, T := GobSerialise(t, silenceInside)
 		GOBsize = F
 		if !silence {
-			fmt.Printf("RUN #%d \nGOB size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", i, F, S, T, S+T)
+			fmt.Printf("GOB size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", F, S, T, S+T)
 		}
 		GOBIntime += S
 		GOBOuttime += T
@@ -389,15 +397,23 @@ func main() {
 
 	GOBIntime /= num_runs
 	GOBOuttime /= num_runs
+
+	fmt.Printf("\nAvarage: ")
 	fmt.Printf("GOB size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", GOBsize, GOBIntime, GOBOuttime, GOBIntime+GOBOuttime)
+
+	println("\n\n")
 
 	XMLsize, XMLIntime, XMLOuttime := 0, 0, 0
 
 	for i := 0; i < num_runs; i++ {
-		F, S, T := XMLSerialise(t, false)
+		if !silence {
+			fmt.Printf("------------XML------RUN #%d---------------- \n", i)
+		}
+
+		F, S, T := XMLSerialise(t, silenceInside)
 		XMLsize = F
 		if !silence {
-			fmt.Printf("RUN #%d \nXML size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", i, F, S, T, S+T)
+			fmt.Printf("XML size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", F, S, T, S+T)
 		}
 		XMLIntime += S
 		XMLOuttime += T
@@ -406,15 +422,22 @@ func main() {
 	XMLIntime /= num_runs
 	XMLOuttime /= num_runs
 
+	fmt.Printf("\nAvarage: ")
 	fmt.Printf("XML size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", XMLsize, XMLIntime, XMLOuttime, XMLIntime+XMLOuttime)
+
+	println("\n\n")
 
 	Jsonsize, JsonIntime, JsonOuttime := 0, 0, 0
 
 	for i := 0; i < num_runs; i++ {
-		F, S, T := JsonSerialise(t, false)
+
+		if !silence {
+			fmt.Printf("------------JSON------RUN #%d---------------- \n", i)
+		}
+		F, S, T := JsonSerialise(t, silenceInside)
 		Jsonsize = F
 		if !silence {
-			fmt.Printf("RUN #%d \nJson size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", i, F, S, T, S+T)
+			fmt.Printf("Json size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", F, S, T, S+T)
 		}
 		JsonIntime += S
 		JsonOuttime += T
@@ -423,7 +446,9 @@ func main() {
 	JsonIntime /= num_runs
 	JsonOuttime /= num_runs
 
+	fmt.Printf("\nAvarage: ")
 	fmt.Printf("JSON size:  %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", Jsonsize, JsonIntime, JsonOuttime, JsonIntime+JsonOuttime)
+	println("\n\n")
 
 	tproto := models.Test{
 		ID:               1,
@@ -438,10 +463,13 @@ func main() {
 	protoSize, protoInTime, protoOutTime := 0, 0, 0
 
 	for i := 0; i < num_runs; i++ {
-		F, S, T := ProtoSerialise(tproto, false)
+		if !silence {
+			fmt.Printf("------------Proto------RUN #%d---------------- \n", i)
+		}
+		F, S, T := ProtoSerialise(tproto, silenceInside)
 		protoSize = F
 		if !silence {
-			fmt.Printf("RUN #%d \nProto size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", i, F, S, T, S+T)
+			fmt.Printf("Proto size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", F, S, T, S+T)
 		}
 		protoInTime += S
 		protoOutTime += T
@@ -450,15 +478,20 @@ func main() {
 	protoInTime /= num_runs
 	protoOutTime /= num_runs
 
+	fmt.Printf("\nAvarage: ")
 	fmt.Printf("Proto size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", protoSize, protoInTime, protoOutTime, protoInTime+protoOutTime)
+	println("\n\n")
 
 	AvroSize, AvroInTime, AvroOutTime := 0, 0, 0
 
 	for i := 0; i < num_runs; i++ {
-		F, S, T := AvroSerialise(t, false)
+		if !silence {
+			fmt.Printf("------------Avro------RUN #%d---------------- \n", i)
+		}
+		F, S, T := AvroSerialise(t, silenceInside)
 		AvroSize = F
 		if !silence {
-			fmt.Printf("RUN #%d \nAvro size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", i, F, S, T, S+T)
+			fmt.Printf("Avro size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", F, S, T, S+T)
 		}
 		AvroInTime += S
 		AvroOutTime += T
@@ -467,15 +500,20 @@ func main() {
 	AvroInTime /= num_runs
 	AvroOutTime /= num_runs
 
+	fmt.Printf("\nAvarage: ")
 	fmt.Printf("Avro size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", AvroSize, AvroInTime, AvroOutTime, AvroInTime+AvroOutTime)
+	println("\n\n")
 
 	YAMLSize, YAMLInTime, YAMLOutTime := 0, 0, 0
 
 	for i := 0; i < num_runs; i++ {
-		F, S, T := YAMLSerialise(t, false)
+		if !silence {
+			fmt.Printf("------------YAML------RUN #%d---------------- \n", i)
+		}
+		F, S, T := YAMLSerialise(t, silenceInside)
 		YAMLSize = F
 		if !silence {
-			fmt.Printf("RUN #%d \nYAML size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", i, F, S, T, S+T)
+			fmt.Printf("YAML size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", F, S, T, S+T)
 		}
 		YAMLInTime += S
 		YAMLOutTime += T
@@ -484,15 +522,20 @@ func main() {
 	YAMLInTime /= num_runs
 	YAMLOutTime /= num_runs
 
+	fmt.Printf("\nAvarage: ")
 	fmt.Printf("YAML size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", YAMLSize, YAMLInTime, YAMLOutTime, YAMLInTime+YAMLOutTime)
+	println("\n\n")
 
 	MSGpSize, MSGpInTime, MSGpOutTime := 0, 0, 0
 
 	for i := 0; i < num_runs; i++ {
-		F, S, T := MSGpSerialise(t, false)
+		if !silence {
+			fmt.Printf("------------MSGPack------RUN #%d---------------- \n", i)
+		}
+		F, S, T := MSGpSerialise(t, silenceInside)
 		MSGpSize = F
 		if !silence {
-			fmt.Printf("RUN #%d \nYAML size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", i, F, S, T, S+T)
+			fmt.Printf("MSGPack size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", F, S, T, S+T)
 		}
 		MSGpInTime += S
 		MSGpOutTime += T
@@ -500,5 +543,7 @@ func main() {
 
 	MSGpInTime /= num_runs
 	MSGpOutTime /= num_runs
+
+	fmt.Printf("\nAvarage: ")
 	fmt.Printf("MSGp size:   %d bytes, Serialize: %d nanosec, Deserialize: %d nanosec\n Total time: %d\n", MSGpSize, MSGpInTime, MSGpOutTime, MSGpInTime+MSGpOutTime)
 }

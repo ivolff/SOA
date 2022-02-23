@@ -6,6 +6,7 @@
         {"name": "Id", "type": "int"},
         {"name": "Name", "type": "string"},
         {"name": "Somenumericarray", "type": {"type":"array", "items":"int"}},
+        {"name": "Somefloatarray", "type": {"type":"array", "items":"float"}},
         {
             "name": "Tests",
             "type": {

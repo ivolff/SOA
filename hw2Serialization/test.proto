@@ -14,5 +14,7 @@ message Test {
 
     repeated int32 SomeNumericArray = 3;
 
-    repeated TestStruct tests = 4;
+    repeated float SomeFloatArray = 4;
+
+    repeated TestStruct tests = 5;
 }

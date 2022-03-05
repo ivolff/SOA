@@ -93,8 +93,8 @@ class Client:
                 
                 if counter > 100:
                     counter = 0
-                    ret = Protocol(dataType=DataType.NowConnected, data="?".encode(encoding='UTF-8'))
-                    self.s.sendto(ret.out(), self.server)
+                    # ret = Protocol(dataType=DataType.NowConnected, data="?".encode(encoding='UTF-8'))
+                    # self.s.sendto(ret.out(), self.server)
             except:
                 pass
 

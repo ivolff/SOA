@@ -7,7 +7,7 @@ class Server:
             self.ip = socket.gethostbyname(socket.gethostname())
             while 1:
                 try:
-                    self.port = int(input('Enter port number to run on --> '))
+                    self.port = 8080
 
                     self.s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                     self.s.settimeout(5)
@@ -49,6 +49,7 @@ class Server:
             self.s.sendto(ret.out(), addr)
 
             ret = Protocol(dataType=DataType.NowConnected, data=";".join(self.clients.values()).encode(encoding='UTF-8'))
+            self.broadcast(addr, ret)
             self.s.sendto(ret.out(), addr)
         # except:
         #     pass

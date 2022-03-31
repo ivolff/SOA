@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"strings"
+	"time"
 
 	"sync/atomic"
 
@@ -92,11 +93,14 @@ func CopyMap(Map *map[string]int) map[string]int {
 	return Res
 }
 
-var MaxDepth = 3
+var MaxDepth = 3 //максимальная глубина на которую ищем
 var ResultTrace = make(map[string]int)
-var m atomic.Value
+var m atomic.Value //0 - когда не нашли ни одного пути 1 иначе
+var counter int64  //считаем количество горутин
 
 func crawler(Trace *map[string]int, Url string, Target string, depth int) {
+
+	atomic.AddInt64(&counter, 1)
 
 	CurTrace := CopyMap(Trace)
 
@@ -105,6 +109,8 @@ func crawler(Trace *map[string]int, Url string, Target string, depth int) {
 	Resp, err := http.Get(URL)
 
 	if err != nil {
+		fmt.Println("Request error:", err)
+		onCrawlerEnd()
 		return
 	}
 
@@ -117,6 +123,7 @@ func crawler(Trace *map[string]int, Url string, Target string, depth int) {
 				fmt.Println("FIND!!!", CurTrace)
 				ResultTrace = CurTrace
 			}
+			onCrawlerEnd()
 			return
 		}
 		if m.Load() == 1 {
@@ -125,11 +132,17 @@ func crawler(Trace *map[string]int, Url string, Target string, depth int) {
 		if !(CurTrace[ur] > 0) && (depth < MaxDepth) && !isFounded {
 			go crawler(&CurTrace, ur, Target, depth+1)
 			if isFounded {
+				onCrawlerEnd()
 				return
 			}
 		}
 	}
+	onCrawlerEnd()
 	return
+}
+
+func onCrawlerEnd() {
+	atomic.AddInt64(&counter, -1)
 }
 
 func main() {
@@ -147,8 +160,10 @@ func main() {
 
 	crawler(&Trace, firstURL, secondURL, 0)
 
-	for len(ResultTrace) == 0 {
-		fmt.Println(len(ResultTrace))
+	time.Sleep(360) //Даем наспавниться горутинам
+	for len(ResultTrace) == 0 && atomic.LoadInt64(&counter) != 0 {
+		time.Sleep(360)
+		fmt.Println(len(ResultTrace), atomic.LoadInt64(&counter))
 	}
 
 	SortedTrace := make([]string, len(ResultTrace))

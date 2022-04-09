@@ -1,0 +1,14 @@
+FROM golang:1.18
+
+RUN mkdir /root/app/
+WORKDIR /root/app/
+
+COPY . .
+
+RUN go mod download
+
+RUN go build -o /client
+
+EXPOSE 5005
+
+CMD ["bash", "-c", "/client"]

@@ -79,10 +79,6 @@ func isUrlsEqual(one string, two string) bool {
 		return false
 	}
 
-	// if u1.Host == u2.Host && u1.Path == u2.Path {
-	// 	fmt.Println(u1.Host, u2.Host, u1.Path, u2.Path, u1.Host == u2.Host, u1.Path == u2.Path)
-	// }
-	//fmt.Println(u1.Host, u2.Host, u1.Path, u2.Path, u1.Host == u2.Host, u1.Path == u2.Path)
 	return ((u1.Host == u2.Host) && (u1.Path == u2.Path))
 }
 
@@ -148,7 +144,7 @@ func onCrawlerEnd() {
 
 func main() {
 	//pid := os.Args[1]
-	conn, err := amqp.Dial("amqp://guest:guest@rabbitmq")
+	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	if err != nil {
 		fmt.Print("Failed to connect to RabbitMQ")
 	}
@@ -203,12 +199,12 @@ func main() {
 		for d := range msgs {
 			ResultTrace = make(map[string]int)
 			atomic.StoreInt64(&counter, 0)
-			var data [2]string
+			var data [3]string
 			json.Unmarshal(d.Body, &data)
 			//log.Printf("Received a message: %s,   %s", data[0], data[1])
 
-			firstURL := strings.TrimSpace(data[0])
-			secondURL := strings.TrimSpace(data[1])
+			firstURL := strings.TrimSpace(data[1])
+			secondURL := strings.TrimSpace(data[2])
 
 			//respFirst, _ := http.Get(firstURL)
 			Trace := make(map[string]int, 0)
@@ -217,21 +213,22 @@ func main() {
 
 			crawler(&Trace, firstURL, secondURL, 0)
 
-			time.Sleep(360) //Даем наспавниться горутинам
+			time.Sleep(100 * time.Millisecond) //Даем наспавниться горутинам
 			for len(ResultTrace) == 0 && atomic.LoadInt64(&counter) != 0 {
-				time.Sleep(360)
+				time.Sleep(100 * time.Millisecond)
 				//fmt.Println(len(ResultTrace), atomic.LoadInt64(&counter))
 			}
 
-			SortedTrace := make([]string, len(ResultTrace)+2)
+			SortedTrace := make([]string, len(ResultTrace)+3)
 
 			for k, v := range ResultTrace {
-				SortedTrace[v+2] = k
+				SortedTrace[v+3] = k
 			}
 			//log.Println("TRACE")
 			//log.Print(SortedTrace)
-			SortedTrace[0] = firstURL
-			SortedTrace[1] = secondURL
+			SortedTrace[0] = data[0]
+			SortedTrace[1] = firstURL
+			SortedTrace[2] = secondURL
 			body, _ := json.Marshal(SortedTrace)
 
 			err = ch.Publish(

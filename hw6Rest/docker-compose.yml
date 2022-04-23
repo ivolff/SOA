@@ -1,0 +1,20 @@
+version: "3.1"
+
+services:
+    rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+            - "15672:15672"
+            - "5672:5672"
+    server:
+        build: 
+            context: server
+        hostname: zalupa
+        ports:
+            - "8080:8080"
+    worker1:
+        build: 
+            context: worker
+    worker2:
+        build: 
+            context: worker

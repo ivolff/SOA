@@ -7,6 +7,13 @@ type Session {
   timestamp: Int!
 }
 
+type Board {
+  _id: ID!
+  ongoing: Boolean!
+  players: [String!]!
+  comments: [Comment!]
+}
+
 type Comment {
   sessionId: String!
   author: String!
@@ -15,6 +22,7 @@ type Comment {
 
 type Query {
   sessions(ongoing: Boolean = true, sessionId: ID): [Session!]
+  scoreBoard(sessionId: ID): Board!
 }
 
 input NewSession {

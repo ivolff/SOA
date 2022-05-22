@@ -2,6 +2,13 @@
 
 package model
 
+type Board struct {
+	ID       string     `json:"_id" bson:"_id"`
+	Ongoing  bool       `json:"ongoing" bson:"ongoing"`
+	Players  []string   `json:"players" bson:"players"`
+	Comments []*Comment `json:"comments" bson:"comments"`
+}
+
 type Comment struct {
 	SessionID string `json:"sessionId" bson:"sessionId"`
 	Author    string `json:"author" bson:"author"`

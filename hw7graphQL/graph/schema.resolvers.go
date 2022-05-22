@@ -82,6 +82,16 @@ func (r *queryResolver) Sessions(ctx context.Context, ongoing *bool, sessionID *
 	return r.DbHandle.GetSessionsByStatus(ctx, *ongoing)
 }
 
+func (r *queryResolver) ScoreBoard(ctx context.Context, sessionID *string) (*model.Board, error) {
+	res, err := r.DbHandle.GetSessionById(ctx, *sessionID)
+	board := model.Board{}
+	board.Comments = res.Comments
+	board.ID = res.ID
+	board.Ongoing = res.Ongoing
+	board.Players = res.Players
+	return &board, err
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 

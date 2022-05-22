@@ -1,0 +1,41 @@
+type Session {
+  _id: ID!
+  name: String!
+  ongoing: Boolean!
+  players: [String!]!
+  comments: [Comment!]
+  timestamp: Int!
+}
+
+type Comment {
+  sessionId: String!
+  author: String!
+  data: String!
+}
+
+type Query {
+  sessions(ongoing: Boolean = true, sessionId: ID): [Session!]
+}
+
+input NewSession {
+  name: String!
+  host: String!
+}
+
+input NewPlayer {
+  sessionId: String!
+  userId: String!
+}
+
+input NewComment {
+  sessionId: String!
+  author: String!
+  data: String!
+}
+
+type Mutation {
+  startSession(input: NewSession!): Session!
+  addPlayer(input: NewPlayer!): Session
+  addComment(input: NewComment!): String!
+  endSession(sessionId: String!, timestamp: Int): String!
+}
